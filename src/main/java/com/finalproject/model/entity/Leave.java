@@ -1,22 +1,21 @@
 package com.finalproject.model.entity;
 
 import com.finalproject.util.converter.DurationConverter;
-import com.finalproject.util.converter.LocalDateTimeConverter;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Set;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"leavesRequests"})
-@ToString(exclude = {"leavesRequests"})
+@ToString()
 @Entity
 @Table(name = "leaves")
 public class Leave {
@@ -32,9 +31,6 @@ public class Leave {
     @Enumerated(value = EnumType.STRING)
     private LeaveReason leaveReason;
 
-    @Enumerated(value = EnumType.STRING)
-    private LeaveStatus leaveStatus;
-
     @Column(name = "start_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startTime;
@@ -47,7 +43,23 @@ public class Leave {
     @Convert(converter = DurationConverter.class)
     private Duration duration;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "leaves", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<User> users;
+    @ManyToOne
+    private User employee;
 
+    private String supervisor;
+
+    private String status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Leave leave = (Leave) o;
+        return id != null && Objects.equals(id, leave.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

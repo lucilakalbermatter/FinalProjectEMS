@@ -119,9 +119,11 @@ public class UserController {
             User user = userService.getCurrentUser();
 
         List<Shift> shifts = userService.getListOfShiftsFromUser(user);
+        List<Leave> leaves = userService.getListOfLeavesFromUser(user);
 
 
         model.addAttribute("shifts",shifts);
+        model.addAttribute("leaves", leaves);
         model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("company", new CompanyDTO());
 
@@ -138,9 +140,11 @@ public class UserController {
     public String getUserProfileById(@PathVariable("id") long id, Model model) {
             User user = userService.getUserById(id);
             List<Shift> shifts = user.getShifts();
+            List<Leave> leaves = user.getLeaves();
 
         model.addAttribute("user", user);
         model.addAttribute("shifts",shifts);
+        model.addAttribute("leaves", leaves);
 
         return "user-profile";
 

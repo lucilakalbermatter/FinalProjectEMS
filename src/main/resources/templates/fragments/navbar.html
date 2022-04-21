@@ -49,34 +49,14 @@
             <li sec:authorize="hasAuthority('USER')" class="nav-item active">
                 <a class="nav-link" th:href="@{/currency/currency_input}" th:text="#{link.currency}"></a>
             </li>
-            <li sec:authorize="isAuthenticated()" class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownList" role="button" data-toggle="dropdown"
-                   aria-expanded="false" aria-haspopup="true" th:text="#{link.leaves}">
-                    Leaves
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/leaves" th:text="#{link.all_leaves}">All leaves</a>
-                    <a class="dropdown-item" href="/leaves/add" sec:authorize="hasAuthority('USER')"
-                       th:text="#{link.add_leave}">
-                        Add leave
-                    </a>
-                    <a class="dropdown-item" href="/leaves/request" sec:authorize="hasAuthority('USER')"
-                       th:text="#{link.all_leaves_requests}">
-                        All leaves requests
-                    </a>
-                </div>
+            <li sec:authorize="hasAuthority('USER')" class="nav-item active">
+                <a class="nav-link" th:href="@{/leaves/leave_request}" th:text="#{link.leave_request}"></a>
             </li>
             <li sec:authorize="hasAuthority('SUPERVISOR')" class="nav-item active">
                 <a class="nav-link" th:href="@{/shifts/assign_shifts}" th:text="#{link.shifts}"></a>
             </li>
-
         </ul>
         <div class="form-inline my-2 my-lg-0" sec:authorize="!isAuthenticated()">
-<!--            <form action="/registration" method="get">
-                <button class="btn btn-outline-primary mr-3 my-2 my-sm-0" th:text="#{button.signup}" type="submit">
-                    Sign up
-                </button>
-            </form>-->
             <form action="/login" method="get">
                 <button type="submit" class="btn btn-primary my-2 my-sm-0" th:text="#{button.signin}"></button>
             </form>

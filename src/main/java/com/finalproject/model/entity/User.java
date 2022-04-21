@@ -67,7 +67,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "leave_id")
     )
     @ToString.Exclude
-    private List<Leave> leaves;
+    private List<Leave> leaves = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     @ToString.Exclude

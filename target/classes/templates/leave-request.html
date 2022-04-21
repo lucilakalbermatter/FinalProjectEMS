@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Leave Request</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar::navbar}"></nav>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="display-4" th:text="#{leaves.header}"></h1>
+            <hr>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/leaves/leave_request}" th:object="${leave}" method="post">
+                <div class="form-row">
+                    <div class="col-md-3 mb-3">
+                        <label>
+                            <span th:text="#{leaves.description.label}"></span>
+                            <input type="text"
+                                   th:field="*{description}"
+                                   th:placeholder="#{leaves.description.placeholder}"
+                                   class="form-control"
+                                   required/>
+                        </label>
+                    </div>
+                </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="col-form-label" for="leaveReason">
+                            <span th:text="#{leaves.reason.label}"></span>
+                            <select th:field="*{leaveReason}" class="form-control" id="leaveReason" required>
+                                <option value="">Select reason</option>
+                                <option th:each="leaveReason : ${T(com.finalproject.model.entity.LeaveReason).values()}"
+                                        th:value="${leaveReason}"
+                                        th:text="${leaveReason}">reason
+                                </option>
+                            </select>
+                            <span th:if="${#fields.hasErrors('leaveReason')}" th:errors="*{leaveReason}"
+                                  class="text-danger"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label>
+                            <span th:text="#{leaves.startTime.label}"></span>
+                            <input type="date"
+                                   th:field="*{startTime}"
+                                   th:placeholder="#{leaves.startTime.placeholder}"
+                                   class="form-control"
+                                   required/>
+                            <span th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"
+                                  class="text-danger"></span>
+                        </label>
+                    </div>
+                <div class="col-md-3 mb-3">
+                    <label>
+                        <span th:text="#{leaves.endTime.label}"></span>
+                        <input type="date"
+                               th:field="*{endTime}"
+                               th:placeholder="#{leaves.endTime.placeholder}"
+                               class="form-control"
+                               required/>
+                        <span th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"
+                              class="text-danger"></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" th:text="#{leave.submit}">Submit Request</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer::footer}"></footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

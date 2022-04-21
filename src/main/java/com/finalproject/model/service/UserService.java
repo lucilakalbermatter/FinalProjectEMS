@@ -232,4 +232,7 @@ public class UserService implements UserDetailsService {
         return user.getShifts();
     }
 
+    public List<Leave> getListOfLeavesFromUser(User user) {
+        return user.getLeaves();
+    }
 }

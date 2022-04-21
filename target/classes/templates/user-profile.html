@@ -142,6 +142,39 @@
                 </tr>
                 </tbody>
             </table>
+            <hr>
+            <span>Leave Request:</span>
+            <table th:unless="${leaves==null}" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Start Date</th>
+                    <th class="text-center">End Date</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Reason</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center" sec:authorize="hasAuthority('SUPERVISOR')">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="leave : ${leaves}">
+                    <td class="text-center"><span th:text="${leave.id}"></span></td>
+                    <td class="text-center"><span th:text="${leave.startTime}"></span></td>
+                    <td class="text-center"><span th:text="${leave.endTime}"></span></td>
+                    <td class="text-center"><span th:text="${leave.status}"></span></td>
+                    <td class="text-center"><span th:text="${leave.leaveReason}"></span></td>
+                    <td class="text-center"><span th:text="${leave.description}"></span></td>
+                    <td class="text-center">
+                        <a sec:authorize="hasAuthority('SUPERVISOR')" th:href="@{/leave/accept/{id}(id=${leave.id})}" class="btn btn-primary">
+                            <img th:src="@{/images/thumbsup.svg}">
+                        </a>
+                        <a sec:authorize="hasAuthority('SUPERVISOR')"  th:href="@{/leave/reject/{id}(id=${leave.id})}" class="btn btn-primary">
+                            <img th:src="@{/images/thumbsdown.svg}">
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
