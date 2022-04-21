@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,10 +71,10 @@ public class Application {
             Company c3 =  new Company(4L,"Pedidos Ya", "Matt LeBlanc", "Cerrito 1186, Buenos Aires, Argentina");
             Company c4 =  new Company(5L,"Mjam", "Matthew Perry","Barichgasse 38, Top 1.4, 1030 Wien" );
 
-    /*        companyService.save(c1);
+            companyService.save(c1);
             companyService.save(c2);
             companyService.save(c3);
-            companyService.save(c4);*/
+            companyService.save(c4);
 
             User u1 = new User(
                     1L,
@@ -196,10 +197,14 @@ public class Application {
             userService.saveToSupervisorRepository(s3);
             userService.saveToSupervisorRepository(s4);
 
+            LocalDate now = LocalDate.now();
+            LocalTime startTime = LocalTime.of(9,0);
+            LocalTime endTime = LocalTime.of(17,30);
+
             Shift shift = new Shift(
-                    LocalDate.now(),
-                    LocalDateTime.of(2022,4,20,0, 0),
-                    LocalDateTime.of(2022,4,20,8, 0),
+                    now,
+                    LocalDateTime.of(now, startTime),
+                    LocalDateTime.of(now, endTime),
                     u6
             );
 

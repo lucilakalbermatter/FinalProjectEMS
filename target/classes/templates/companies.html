@@ -52,7 +52,7 @@
                 <div aria-label="btn-group" class="btn-group" role="group">
                   <a class="btn btn-sm btn-secondary"
                      sec:authorize="hasAuthority('SUPERADMIN')"
-                     th:href="@{/company/delete/{name}(name=${company.getName})}"
+                     th:href="@{/company/delete/{id}(id=${company.getId})}"
                      th:text="#{company.delete}">
                     Delete
                   </a>

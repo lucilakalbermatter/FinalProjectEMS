@@ -10,6 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Controller
 @RequestMapping("/check_in_out")
@@ -39,8 +43,13 @@ public class CheckInOutController {
         User employee = userService.getCurrentUser();
         Shift shift = shiftService.findCurrentShift(employee);
 
-        model.addAttribute("shift", shift);
         shiftService.getTotalWorkedTime();
+        String formattedTotalWorkedTime = shift.getTotalTimeWorked().toHours() + " hrs, "
+                + shift.getTotalTimeWorked().toMinutes() + " min, " + shift.getTotalTimeWorked().toSeconds() + " sec";
+
+        model.addAttribute("shift", shift);
+        model.addAttribute("totalTime", formattedTotalWorkedTime);
+
         return "check_in_out";
     }
 
@@ -63,5 +72,12 @@ public class CheckInOutController {
         model.addAttribute("shift", shift);
         shiftService.stop();
         return "check_in_out";
+    }
+
+    private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.addDialect(new Java8TimeDialect());
+        engine.setTemplateResolver(templateResolver);
+        return engine;
     }
 }

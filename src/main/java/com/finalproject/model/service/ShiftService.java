@@ -14,8 +14,11 @@ import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,27 +41,9 @@ public class ShiftService {
     }
 
     //Format the date and time
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss a");
+    //DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-
-    public boolean isLastShiftOnCurrentDate(){
-        User employee = userService.getCurrentUser();
-        Shift shift = null;
-        int comparison= -1;
-
-        if(!employee.getShifts().isEmpty()){
-            shift = findCurrentShift(employee);
-            LocalDate currentDate = LocalDate.now();
-            if(shift.getShiftDay() != null){
-                LocalDate lastShiftDate = shift.getShiftDay();
-                comparison = currentDate.compareTo(ChronoLocalDate.from(lastShiftDate));
-            }
-        }
-
-        return comparison == 0;
-
-    }
 
     public void start() {
         User employee = userService.getCurrentUser();
@@ -68,14 +53,21 @@ public class ShiftService {
             shift.setAbsent(false);
             shift.setShiftDay(LocalDate.now());
 
-            if (!(shift.isCurrentlyWorking())) {
+            if (!(shift.isCurrentlyWorking()) && shift.getShiftDay().equals(shift.getAssignedDay())) {
+                LocalDateTime now = LocalDateTime.now();
+                if(shift.getCheckIns().isEmpty()){
+                    shift.setFirstCheckIn(now);
+                }
                 shift.setCurrentlyWorking(true);
-                shift.setTempStartTime(LocalDateTime.now());
-                shift.getCheckIns().add(shift.getTempStartTime());
-                shift.setStatusMessage("Check in at: " + shift.getTempStartTime().format(formatter));
+                shift.setTempStartTime(now);
+                shift.getCheckIns().add(now);
+                shift.setStatusMessage("Check in at: " + now.format(formatter));
                 saveShiftAndUpdateEmployee(employee, shift);
-            }else {
-                shift.setStatusMessage("You already checked in! Can't do it again if you don't check-out");
+            }else if(!(shift.isCurrentlyWorking()) && !shift.getShiftDay().equals(shift.getAssignedDay())){
+                shift.setStatusMessage("Sorry, you are trying to access a shift of another day. Please contact your supervisor if you have questions.");
+            }
+            else {
+                shift.setStatusMessage("Sorry, you need to check out first!");
             }
         }
     }
@@ -85,19 +77,20 @@ public class ShiftService {
         Shift shift = findCurrentShift(employee);
 
         if(shift !=null){
-            if (shift.isCurrentlyWorking()) {
+            if (shift.isCurrentlyWorking() && shift.getShiftDay().equals(shift.getAssignedDay())) {
+                LocalDateTime now = LocalDateTime.now();
                 shift.setCurrentlyWorking(false);
-                shift.setTempEndTime(LocalDateTime.now());
-                shift.getCheckOuts().add(shift.getTempEndTime());
+                shift.setTempEndTime(now);
+                shift.getCheckOuts().add(now);
                 this.getTimeBetweenStartAndEnd(shift);
-                shift.setStatusMessage("Check out at: " + shift.getTempEndTime().format(formatter));
+                shift.setStatusMessage("Check out at: " + now.format(formatter));
                 saveShiftAndUpdateEmployee(employee, shift);
-            } else {
+            }else if(!shift.getShiftDay().equals(shift.getAssignedDay())){
+                shift.setStatusMessage("Sorry, you are trying to access a shift of another day. Please contact your supervisor if you have questions.");
+            }else {
                 shift.setStatusMessage("Sorry, you need to check in first!");
             }
         }
-
-
     }
 
     public void getTotalWorkedTime() {
@@ -105,7 +98,7 @@ public class ShiftService {
         Shift shift = findCurrentShift(employee);
 
         if(shift !=null){
-            if(shift.getTempEndTime() != null){
+            if(shift.getTempEndTime() != null && shift.getShiftDay().equals(shift.getAssignedDay())){
                 Duration difference = Duration.between(shift.getTempStartTime(), shift.getTempEndTime());
                 if(difference != null){
                     Duration total = getTotalTimeWorked(shift);
@@ -114,6 +107,8 @@ public class ShiftService {
                     shift.setStatusMessage("Time worked today: " + total.toHours() + " hours, "
                             + total.toMinutes() + " minutes, " + total.toSeconds() + " seconds");
                 }
+            }else if(!shift.getShiftDay().equals(shift.getAssignedDay())){
+                shift.setStatusMessage("Sorry, you are trying to access a shift of another day. Please contact your supervisor if you have questions.");
             }else{
                 shift.setStatusMessage("Sorry, you need to check in and check out first!");
             }
@@ -164,23 +159,40 @@ public class ShiftService {
     }
 
     public void createNewShift(ShiftDTO shiftDTO) {
+        LocalTime startTime = LocalTime.from(this.stringToLocalDateTime(shiftDTO.getAssignedStartTime()));
+        LocalTime endTime = LocalTime.from(this.stringToLocalDateTime(shiftDTO.getAssignedEndTime()));
+
+        LocalDateTime assignedStartTime = LocalDateTime.of(shiftDTO.getAssignedDay(), startTime);
+        LocalDateTime assignedEndTime = LocalDateTime.of(shiftDTO.getAssignedDay(), endTime);
+
         Shift shift = Shift
                 .builder()
                 .assignedDay(shiftDTO.getAssignedDay())
-                .assignedStartTime(shiftDTO.getAssignedStartTime())
-                .assignedEndTime(shiftDTO.getAssignedEndTime())
+                .assignedStartTime(assignedStartTime)
+                .assignedEndTime(assignedEndTime)
                 .employee(userService.findByFullName(shiftDTO.getAssignedEmployeeName()))
                 .build();
 
         try {
             this.saveShiftAndUpdateEmployee(shift.getEmployee(), shift);
-            //shiftRepository.save(shift);
             log.info("New shift " + shift);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public LocalTime stringToLocalDateTime(String string){
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder().append(DateTimeFormatter.ofPattern("HH:mm"))
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                .toFormatter();
+
+        return LocalTime.parse(string, formatter);
+    }
+
+
 
 
 }
