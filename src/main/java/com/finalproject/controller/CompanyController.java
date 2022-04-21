@@ -32,7 +32,7 @@ public class CompanyController {
     //Get Mapping
     @GetMapping("/companies")
     public String getCompaniesPage(Model model,
-                                   @PageableDefault(sort = {"name"},
+                                   @PageableDefault(sort = {"id"},
                                            direction = Sort.Direction.DESC,
                                            size = 5) Pageable pageable, String company) {
 
@@ -54,7 +54,7 @@ public class CompanyController {
     @GetMapping("/company/delete/{id}")
     public String deleteCompany(@PathVariable("id") long longId) {
         companyService.deleteCompany(longId);
-        return "companies";
+        return "redirect:/companies";
     }
 
     @GetMapping("/company/update/{id}")

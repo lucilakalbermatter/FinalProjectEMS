@@ -60,6 +60,7 @@
                     <th>Assigned Day</th>
                     <th>Assigned Start Time</th>
                     <th>Assigned End Time</th>
+                    <th>First Check In</th>
                     <th>Last Check In</th>
                     <th>Last Check Out</th>
                     <th>Time Worked</th>
@@ -68,12 +69,13 @@
                 <tbody>
                 <tr>
                     <td><span th:text="${shift.id}"></span></td>
-                    <td><span th:text="${shift.assignedDay}"></span></td>
-                    <td><span th:text="${shift.assignedStartTime}"></span></td>
-                    <td><span th:text="${shift.assignedEndTime}"></span></td>
-                    <td><span th:text="${shift.tempStartTime}"></span></td>
-                    <td><span th:text="${shift.tempEndTime}"></span></td>
-                    <td><span th:text="${shift.totalTimeWorked}"></span></td>
+                    <td><span th:text="${#temporals.format(shift.assignedDay, 'dd.MM.yyyy')}"></span></td>
+                    <td><span th:text="${#temporals.format(shift.assignedStartTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td><span th:text="${#temporals.format(shift.assignedEndTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td><span th:text="${#temporals.format(shift.firstCheckIn, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td><span th:text="${#temporals.format(shift.tempStartTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td><span th:text="${#temporals.format(shift.tempEndTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td><span th:text="${totalTime}"></span></td>
                 </tr>
                 </tbody>
             </table>
