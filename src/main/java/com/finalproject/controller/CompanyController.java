@@ -32,7 +32,7 @@ public class CompanyController {
     //Get Mapping
     @GetMapping("/companies")
     public String getCompaniesPage(Model model,
-                                   @PageableDefault(sort = {"id"},
+                                   @PageableDefault(sort = {"name"},
                                            direction = Sort.Direction.DESC,
                                            size = 5) Pageable pageable, String company) {
 
