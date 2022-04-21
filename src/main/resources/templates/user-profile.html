@@ -169,11 +169,9 @@
                             <a sec:authorize="hasAuthority('SUPERVISOR')" th:href="@{/leave/accept/{id}(id=${leave.id})}" class="btn btn-primary">
                                 <img th:src="@{/images/thumbsup.svg}">
                             </a>
-                        </div>
-                        <div th:if="${!leave.statusUpdated}">
-                        <a sec:authorize="hasAuthority('SUPERVISOR')"  th:href="@{/leave/reject/{id}(id=${leave.id})}" class="btn btn-primary">
-                            <img th:src="@{/images/thumbsdown.svg}">
-                        </a>
+                            <a sec:authorize="hasAuthority('SUPERVISOR')"  th:href="@{/leave/reject/{id}(id=${leave.id})}" class="btn btn-primary">
+                                <img th:src="@{/images/thumbsdown.svg}">
+                            </a>
                         </div>
                     </td>
                 </tr>

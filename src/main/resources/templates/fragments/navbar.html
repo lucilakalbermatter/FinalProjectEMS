@@ -23,7 +23,7 @@
             <li sec:authorize="isAuthenticated()" class="nav-item active">
                 <a class="nav-link" th:href="@{/profile}" th:text="#{link.profile}"></a>
             </li>
-            <li sec:authorize="hasAuthority('SUPERVISOR')" class="nav-item active">
+            <li sec:authorize="hasAnyAuthority('SUPERVISOR', 'HR_AGENT')" class="nav-item active">
                 <a class="nav-link" th:href="@{/users}" th:text="#{link.all_users}"></a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item dropdown active">
@@ -43,13 +43,13 @@
                     </a>
                 </div>
             </li>
-            <li sec:authorize="hasAuthority('USER')" class="nav-item active">
+            <li class="nav-item active">
                 <a class="nav-link" th:href="@{/check_in_out}" th:text="#{link.check_in}"></a>
             </li>
-            <li sec:authorize="hasAuthority('USER')" class="nav-item active">
+            <li class="nav-item active">
                 <a class="nav-link" th:href="@{/currency/currency_input}" th:text="#{link.currency}"></a>
             </li>
-            <li sec:authorize="hasAuthority('USER')" class="nav-item active">
+            <li class="nav-item active">
                 <a class="nav-link" th:href="@{/leaves/leave_request}" th:text="#{link.leave_request}"></a>
             </li>
             <li sec:authorize="hasAuthority('SUPERVISOR')" class="nav-item active">

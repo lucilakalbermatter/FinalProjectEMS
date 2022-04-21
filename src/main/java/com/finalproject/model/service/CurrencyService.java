@@ -1,5 +1,6 @@
 package com.finalproject.model.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -8,11 +9,10 @@ import java.util.Map;
 @Service
 public class CurrencyService {
 
-
   private final WebClient webClient;
   private final String apiKey = "055fe50ac6aa8f7680c85af3";
- //private static final DecimalFormat df = new DecimalFormat("0.00");
 
+  @Autowired
   public CurrencyService() {
     webClient = WebClient.builder()
             .baseUrl("https://v6.exchangerate-api.com/v6/" + apiKey)
@@ -20,7 +20,6 @@ public class CurrencyService {
   }
 
   public Double getConvertedAmount(String base_code, String target_code, double amount) {
-              //return (df.format(double) webClient
               return (Double) webClient
               .get()
               .uri(uriBuilder -> uriBuilder
@@ -35,6 +34,5 @@ public class CurrencyService {
               .bodyToMono(Map.class)
               .map(map -> map.get("conversion_result"))
               .block();  /// returns the body as an array of User
-
     }
   }

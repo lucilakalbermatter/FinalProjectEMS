@@ -29,10 +29,4 @@ public class Company {
     @Column(name = "address", nullable = false)
     private String address;
 
-/*
-    @OneToMany (cascade = {CascadeType.ALL})
-    @ToString.Exclude
-    private Set<User> employee;
-*/
-
 }

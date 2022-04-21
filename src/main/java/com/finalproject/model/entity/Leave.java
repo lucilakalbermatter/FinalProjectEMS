@@ -15,7 +15,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString()
+@ToString
 @Entity
 @Table(name = "leaves")
 public class Leave {

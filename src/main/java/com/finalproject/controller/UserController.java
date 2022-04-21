@@ -21,11 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -37,30 +35,25 @@ import java.util.List;
 @Log4j2
 @RequestMapping
 public class UserController {
+
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
     private final CompanyService companyService;
-    private final EntityManager entityManager;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder, CompanyRepository companyRepository, CompanyService companyService, EntityManager entityManager) {
+    public UserController(
+            UserService userService,
+            PasswordEncoder passwordEncoder,
+            CompanyRepository companyRepository,
+            CompanyService companyService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
         this.companyService = companyService;
-        this.entityManager = entityManager;
     }
 
-/*    @GetMapping("/users")
-    public String getListOfUsers(Model model,
-                                 @PageableDefault(size = 15,
-                                         sort = {"lastName", "firstName"}) Pageable pageable) {
-        model.addAttribute("users", userService.findAllUsersPageable(pageable));
-        return "users";
-    }*/
-
-        @GetMapping("/users")
+    @GetMapping("/users")
     public String getListOfUsers(Model model, String keyword,
                                  @PageableDefault(size = 15,
                                          sort = {"lastName", "firstName"}) Pageable pageable) {

@@ -1,6 +1,5 @@
 package com.finalproject.util.token;
 
-import com.finalproject.dto.RegistrationUserDTO;
 import com.finalproject.model.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

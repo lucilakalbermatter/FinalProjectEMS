@@ -1,9 +1,7 @@
 package com.finalproject.model.entity;
 
-
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -11,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
 
 @NoArgsConstructor
 @AllArgsConstructor

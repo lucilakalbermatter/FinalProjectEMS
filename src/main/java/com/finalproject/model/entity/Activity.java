@@ -3,18 +3,20 @@ package com.finalproject.model.entity;
 import com.finalproject.util.converter.DurationConverter;
 import com.finalproject.util.converter.LocalDateTimeConverter;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"activityRequests"})
-@ToString(exclude = {"activityRequests"})
+@ToString
 @Entity
 @Table(name = "activities")
 public class Activity {
@@ -52,5 +54,19 @@ public class Activity {
     private Set<User> users;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<ActivityRequest> activityRequests;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Activity activity = (Activity) o;
+        return id != null && Objects.equals(id, activity.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -1,12 +1,11 @@
 package com.finalproject.controller;
 import com.finalproject.dto.CompanyDTO;
-import com.finalproject.dto.UpdateUserDTO;
 import com.finalproject.model.entity.Authority;
 import com.finalproject.model.entity.Company;
-import com.finalproject.model.entity.Department;
 import com.finalproject.model.service.CompanyService;
 import com.finalproject.util.exception.UsernameNotUniqueException;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -25,6 +24,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
+    @Autowired
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
     }
@@ -43,8 +43,6 @@ public class CompanyController {
         }
         return "companies";
     }
-
-
 
     @GetMapping("/company/add")
     public String getAddCompanyPage(@ModelAttribute("company")CompanyDTO companyDTO) {

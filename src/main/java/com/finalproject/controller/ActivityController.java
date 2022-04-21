@@ -7,6 +7,7 @@ import com.finalproject.model.entity.ActivityImportance;
 import com.finalproject.model.entity.User;
 import com.finalproject.model.service.ActivityService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 public class ActivityController {
     private final ActivityService activityService;
 
+    @Autowired
     public ActivityController(ActivityService activityService) {
         this.activityService = activityService;
     }

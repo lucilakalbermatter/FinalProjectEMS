@@ -23,6 +23,7 @@ import java.util.Set;
 @Service
 @Log4j2
 public class ActivityService {
+
     private final ActivityRepository activityRepository;
 
     @Autowired

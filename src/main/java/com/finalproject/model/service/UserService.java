@@ -8,6 +8,7 @@ import com.finalproject.model.repository.SupervisorRepository;
 import com.finalproject.model.repository.UserRepository;
 import com.finalproject.util.exception.UsernameNotUniqueException;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +22,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +39,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final SupervisorRepository supervisorRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository,
                        MessageSource messageSource,
                        PasswordEncoder passwordEncoder, SupervisorRepository supervisorRepository) {

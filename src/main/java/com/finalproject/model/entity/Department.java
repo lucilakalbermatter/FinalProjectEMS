@@ -5,5 +5,5 @@ public enum Department {
     FINANCE,
     SALES,
     MARKETING,
-    HUMAN_RESOURCES;
+    HUMAN_RESOURCES
 }

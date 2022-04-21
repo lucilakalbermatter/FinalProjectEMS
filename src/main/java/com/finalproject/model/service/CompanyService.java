@@ -24,7 +24,6 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final MessageSource messageSource;
 
-
     @Autowired
     public CompanyService(CompanyRepository companyRepository, MessageSource messageSource) {
         this.companyRepository = companyRepository;
@@ -53,12 +52,10 @@ public class CompanyService {
                 new IllegalArgumentException("Invalid company id: " + id));
     }
 
-
     public void deleteCompany(long id) {
         Company company = getCompanyById(id);
         companyRepository.delete(company);
     }
-
 
     public void save(Company company){
         companyRepository.save(company);
@@ -72,7 +69,6 @@ public class CompanyService {
         return companyRepository.findByName(name)
                 .orElseThrow(()-> new UsernameNotFoundException(name));
     }
-
 
     public Company findById(long id) {
         return companyRepository.findById(id).orElseThrow();

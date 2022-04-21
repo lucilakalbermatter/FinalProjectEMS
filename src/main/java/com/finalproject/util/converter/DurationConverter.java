@@ -1,6 +1,7 @@
 package com.finalproject.util.converter;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.time.Duration;
 
 /**
@@ -8,6 +9,7 @@ import java.time.Duration;
  *
  * @see Duration
  */
+@Converter
 public class DurationConverter implements AttributeConverter<Duration, Long> {
 
     @Override

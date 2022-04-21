@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,7 +19,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     Optional<User> findByFullName(String fullName);
-
 
     @Transactional
     @Modifying
@@ -32,12 +30,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     int enableUser(String email);
 
-
     @Query(value="SELECT e FROM User e WHERE e.firstName LIKE %:keyword% " +
             "OR e.lastName LIKE %:keyword% OR e.username LIKE %:keyword% " +
             "OR e.department LIKE %:keyword%")
     Page<User> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
-
 
 }
 

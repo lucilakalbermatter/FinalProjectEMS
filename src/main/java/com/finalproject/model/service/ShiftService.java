@@ -10,18 +10,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.List;
 import java.util.Objects;
-
 
 @Service
 @Log4j2
@@ -29,21 +25,16 @@ public class ShiftService {
 
     private final UserService userService;
     private final ShiftRepository shiftRepository;
-    private final AbsenceRepository absenceRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public ShiftService(UserService userService, ShiftRepository shiftRepository, AbsenceRepository absenceRepository, UserRepository userRepository) {
+    public ShiftService(UserService userService,
+                        ShiftRepository shiftRepository) {
         this.userService = userService;
         this.shiftRepository = shiftRepository;
-        this.absenceRepository = absenceRepository;
-        this.userRepository = userRepository;
     }
 
     //Format the date and time
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy hh:mm:ss a");
-    //DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
 
     public void start() {
         User employee = userService.getCurrentUser();
@@ -195,9 +186,6 @@ public class ShiftService {
 
         return LocalTime.parse(string, formatter);
     }
-
-
-
 
 }
 

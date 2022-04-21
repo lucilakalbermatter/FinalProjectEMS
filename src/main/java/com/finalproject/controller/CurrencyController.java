@@ -2,7 +2,7 @@ package com.finalproject.controller;
 
 import com.finalproject.model.entity.Currency;
 import com.finalproject.model.service.CurrencyService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/currency")
 public class CurrencyController {
 
   private final CurrencyService currencyRestService;
+
+  @Autowired
+  public CurrencyController(CurrencyService currencyRestService) {
+    this.currencyRestService = currencyRestService;
+  }
 
   @GetMapping(path = "/currency_input")
   public String currencyConverter(Model model) {

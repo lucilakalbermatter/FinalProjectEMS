@@ -6,6 +6,7 @@ import com.finalproject.model.service.UserService;
 import com.finalproject.util.email.EmailService;
 import com.finalproject.util.exception.UsernameNotUniqueException;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,10 +21,12 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
+
     private final UserService userService;
     private final EmailService emailService;
     private final CompanyService companyService;
 
+    @Autowired
     public RegistrationController(UserService userService, EmailService emailService, CompanyService companyService) {
         this.userService = userService;
         this.emailService = emailService;

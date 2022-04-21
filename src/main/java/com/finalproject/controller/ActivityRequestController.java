@@ -6,6 +6,7 @@ import com.finalproject.model.entity.ActivityRequestStatus;
 import com.finalproject.model.entity.User;
 import com.finalproject.model.service.ActivityRequestService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ActivityRequestController {
     private final ActivityRequestService activityRequestService;
 
+    @Autowired
     public ActivityRequestController(ActivityRequestService activityRequestService) {
         this.activityRequestService = activityRequestService;
     }

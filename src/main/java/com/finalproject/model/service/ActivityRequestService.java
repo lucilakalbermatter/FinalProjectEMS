@@ -5,6 +5,7 @@ import com.finalproject.model.repository.ActivityRepository;
 import com.finalproject.model.repository.ActivityRequestRepository;
 import com.finalproject.model.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,12 @@ import java.time.LocalDateTime;
 @Log4j2
 @Service
 public class ActivityRequestService {
+
     private final ActivityRequestRepository activityRequestRepository;
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
 
+    @Autowired
     public ActivityRequestService(ActivityRequestRepository activityRequestRepository, UserRepository userRepository, ActivityRepository activityRepository) {
         this.activityRequestRepository = activityRequestRepository;
         this.userRepository = userRepository;
@@ -54,10 +57,8 @@ public class ActivityRequestService {
         }
 
         switch (activity.getStatus()) {
-            case COMPLETED:
-                log.info("Activity already completed");
-                break;
-            case ACTIVE: {
+            case COMPLETED -> log.info("Activity already completed");
+            case ACTIVE -> {
                 if (activity.getUsers().contains(user)) {
                     log.info("User already in activity");
                     break;
@@ -70,9 +71,8 @@ public class ActivityRequestService {
                         .requestDate(LocalDateTime.now())
                         .build();
                 activityRequestRepository.save(activityRequest);
-                break;
             }
-            case PENDING: {
+            case PENDING -> {
                 ActivityRequest activityRequest = ActivityRequest.builder()
                         .user(user)
                         .activity(activity)
@@ -81,7 +81,6 @@ public class ActivityRequestService {
                         .requestDate(LocalDateTime.now())
                         .build();
                 activityRequestRepository.save(activityRequest);
-                break;
             }
         }
     }
@@ -136,7 +135,7 @@ public class ActivityRequestService {
         User user = activityRequest.getUser();
 
         switch (activity.getStatus()) {
-            case PENDING: {
+            case PENDING -> {
                 activity.setStartTime(LocalDateTime.now());
                 activity.setStatus(ActivityStatus.ACTIVE);
                 user.getActivities().add(activity);
@@ -144,20 +143,17 @@ public class ActivityRequestService {
 
                 activityRepository.save(activity);
                 log.info("Activity request approved");
-                break;
             }
-            case ACTIVE: {
+            case ACTIVE -> {
                 user.getActivities().add(activity);
                 activityRequest.setStatus(ActivityRequestStatus.APPROVED);
 
                 activityRepository.save(activity);
                 log.info("Activity request approved");
-                break;
             }
-            case COMPLETED: {
+            case COMPLETED -> {
                 log.info("Can not approve add request for completed activity");
                 activityRequest.setStatus(ActivityRequestStatus.REJECTED);
-                break;
             }
         }
         activityRequestRepository.save(activityRequest);
@@ -170,23 +166,20 @@ public class ActivityRequestService {
         Activity activity = activityRequest.getActivity();
 
         switch (activity.getStatus()) {
-            case PENDING: {
+            case PENDING -> {
                 log.info("Can not approve complete request for pending activity");
-                break;
             }
-            case ACTIVE: {
+            case ACTIVE -> {
                 activity.setEndTime(LocalDateTime.now());
                 activity.setStatus(ActivityStatus.COMPLETED);
                 activityRequest.setStatus(ActivityRequestStatus.APPROVED);
                 activityRepository.save(activity);
                 activityRequestRepository.save(activityRequest);
-                break;
             }
-            case COMPLETED: {
+            case COMPLETED -> {
                 log.info("Can not approve complete request for completed activity");
                 activityRequest.setStatus(ActivityRequestStatus.REJECTED);
                 activityRequestRepository.save(activityRequest);
-                break;
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.finalproject.util.email;
 
-
 import com.finalproject.dto.RegistrationUserDTO;
 import com.finalproject.model.entity.User;
 import com.finalproject.model.service.AbsenceService;
@@ -144,7 +143,6 @@ public class EmailService implements EmailSender{
         // set the user that holds this token to enabled
         userService.enableUser(
                 confirmationToken.getUser().getUsername());
-//        confirmationToken.getUser().setEnabled(true);
         userService.save(confirmationToken.getUser());
         return "confirmed";
     }
@@ -168,9 +166,5 @@ public class EmailService implements EmailSender{
                 throw new IllegalStateException("failed to send email");
             }
         }
-
-
-
-
     }
 }
