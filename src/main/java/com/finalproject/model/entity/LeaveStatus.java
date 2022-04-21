@@ -9,7 +9,8 @@ package com.finalproject.model.entity;
 public enum LeaveStatus {
 
     INACTIVE("Pending"),
-    ACTIVE("Active");
+    ACTIVE("Approved"),
+    REJECTED("Rejected");
 
 
 

@@ -89,9 +89,10 @@ public class LeaveRequestService {
         switch (leave.getLeaveStatus()) {
             case INACTIVE: {
                 leave.setStartTime(LocalDate.now());
-                leave.setLeaveStatus(LeaveStatus.ACTIVE);
                 user.getLeaves().add(leave);
                 leaveRequest.setStatus(LeaveRequestStatus.APPROVED);
+                leave.setLeaveStatus(LeaveStatus.ACTIVE);
+                leaveRequestRepository.save(leaveRequest);
 
                 leaveRepository.save(leave);
                 log.info("Leave request approved");
