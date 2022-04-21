@@ -50,6 +50,8 @@ public class Leave {
 
     private String status;
 
+    private boolean statusUpdated;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -165,11 +165,13 @@ public class LeaveService {
 
     public void accept(Leave leave) {
         leave.setStatus(LeaveRequestStatus.APPROVED.name());
+        leave.setStatusUpdated(true);
         this.saveLeaveAndUpdateEmployee(leave);
     }
 
     public void reject(Leave leave) {
         leave.setStatus(LeaveRequestStatus.REJECTED.name());
+        leave.setStatusUpdated(true);
         this.saveLeaveAndUpdateEmployee(leave);
     }
 }
