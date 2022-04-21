@@ -43,23 +43,6 @@
                                 <span th:text="#{activities.activity.importance}">Importance: </span>
                                 <span th:text="${activity.importance}"></span>
                             </p>
-                           <!-- <p>
-                                <span th:text="#{activities.activity.start_time}">Start time: </span>
-                                <span th:text="${#temporals.format(activity.startTime, 'dd.MM.yyyy HH:mm')}"></span>
-                            </p>
-                            <p>
-                                <span th:text="#{activities.activity.end_time}">End time: </span>
-                                <span th:text="${#temporals.format(activity.endTime, 'dd.MM.yyyy HH:mm')}"></span>
-                            </p>
-                            <p>
-                                <span th:text="#{activities.activity.duration}">Duration: </span>
-                                <span th:text="${activity.duration?.toDaysPart()}"></span>
-                                <span th:text="#{activities.activity.duration.days}">days</span>
-                                <span th:text="${activity.duration?.toHoursPart()}"></span>
-                                <span th:text="#{activities.activity.duration.hours}">hours</span>
-                                <span th:text="${activity.duration?.toMinutesPart()}"></span>
-                                <span th:text="#{activities.activity.duration.minutes}">minutes</span>
-                            </p>-->
                             <p>
                                 <span th:text="#{activities.activity.users}"></span>
                                 <span th:each="user : ${activity.users}">
@@ -84,11 +67,6 @@
                                        th:text="#{activities.activity.button.request_to_complete}">
                                         Request to complete
                                     </a>
-                                    <!--<button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                                            data-target="#timeSpentModal" th:attrappend="data-target=${activity.id}"
-                                            th:text="#{activities.activity.button.mark_time_spent}">
-                                        Mark time spent
-                                    </button>-->
                                 </div>
                             </div>
                             <!--Start modal window-->

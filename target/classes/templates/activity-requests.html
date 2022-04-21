@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Activity requests</title>
@@ -59,11 +59,13 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <a class="btn btn-sm btn-secondary"
+                                       sec:authorize="hasAnyAuthority('SUPERADMIN', 'SUPERVISOR')"
                                        th:href="@{/activities/request/approve/{id}(id=${activityRequest.id})}"
                                        th:text="#{activity.request.button.approve}">
                                         Approve
                                     </a>
                                     <a class="btn btn-sm btn-secondary"
+                                       sec:authorize="hasAnyAuthority('SUPERADMIN', 'SUPERVISOR')"
                                        th:href="@{/activities/request/reject/{id}(id=${activityRequest.id})}"
                                        th:text="#{activity.request.button.reject}">
                                         Reject

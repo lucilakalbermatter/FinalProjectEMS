@@ -33,11 +33,11 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/activities" th:text="#{link.all_activities}">All activities</a>
-                    <a class="dropdown-item" href="/activities/add" sec:authorize="hasAuthority('SUPERVISOR')"
+                    <a class="dropdown-item" href="/activities/add"
                        th:text="#{link.add_activity}">
                         Add activity
                     </a>
-                    <a class="dropdown-item" href="/activities/request" sec:authorize="hasAuthority('SUPERVISOR')"
+                    <a class="dropdown-item" href="/activities/request"
                        th:text="#{link.all_activity_requests}">
                         All activity requests
                     </a>
