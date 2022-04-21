@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EMSfinalProject" />
+        <module name="FinalProjectEMSLAK" />
         <module name="ems-spring" />
       </profile>
     </annotationProcessing>
@@ -15,12 +16,14 @@
       <module name="DHTAfinalProject" target="17" />
       <module name="ems-spring" target="17" />
       <module name="EMSfinalProject" target="17" />
+      <module name="FinalProjectEMSLAK" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="DHTAfinalProject" options="-parameters" />
       <module name="EMSfinalProject" options="-parameters" />
+      <module name="FinalProjectEMSLAK" options="-parameters" />
       <module name="ems-spring" options="-parameters" />
     </option>
   </component>
