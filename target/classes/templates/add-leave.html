@@ -27,10 +27,11 @@
                                        th:text="#{leaves.add.reason}">
                                     Leave Reason
                                 </label>
-                                <select th:field="*{leaveReason}" class="form-control" id="reason">
+                                <select th:field="*{leaveReason}" class="form-control" id="reason" required>
+                                    <option value="">Nothing selected</option>
                                     <option th:each="leaveReason : ${reasons}"
                                             th:text="${leaveReason}"
-                                            th:value="${leaveReason.name()}">
+                                            th:value="${leaveReason.name()}" >
                                     </option>
                                 </select>
                                 <span th:if="${#fields.hasErrors('leaveReason')}" th:errors="*{leaveReason}"
@@ -49,12 +50,12 @@
                             <div class="form-group col-md-12">
                             <label for="start">Please select your start date: </label>
                             <input type="date"  class="form-control"
-                                   th:value="${#calendars.format(leave.getStartTime())}" th:name="startTime" id="start"/>
+                                   th:value="${#calendars.format(leave.getStartTime())}" th:name="startTime" id="start" required>
 
                             <br>
                             <label for="end">Please select your end date: </label>
                             <input type="date"  class="form-control"
-                                   th:value="${#calendars.format(leave.getEndTime())}" th:name="endTime" id="end"/>
+                                   th:value="${#calendars.format(leave.getEndTime())}" th:name="endTime" id="end" required>
 
                             </div>
                         <div class="row">

@@ -3,8 +3,11 @@ package com.finalproject.dto;
 import com.finalproject.model.entity.Leave;
 import com.finalproject.model.entity.LeaveReason;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -25,7 +28,9 @@ public class LeaveDTO {
     @NotNull(message = "{validation.leave.leaveReason.not_null}")
     private LeaveReason leaveReason;
     @NotNull(message = "{validation.leave.startTime.not_null}" )
-    private Date startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startTime;
     @NotNull(message = "{validation.leave.endTime.not_null}" )
-    private Date endTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endTime;
 }
