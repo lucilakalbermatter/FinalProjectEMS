@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAuthority("SUPERADMIN")
                 .antMatchers("/profiles/**","/users/**", "/registration/**")
                 .hasAuthority("HR_AGENT")
-                .antMatchers("/leave/**","/profiles/**", "/shifts/**", "/activities/request", "/activities/add", "/activities/delete/**", "/activities/edit/**", "/activities/request/approve/**", "/activities/request/reject/**")
+                .antMatchers("/users/**","/leave/**","/profiles/**", "/shifts/**", "/activities/request", "/activities/add", "/activities/delete/**", "/activities/edit/**", "/activities/request/approve/**", "/activities/request/reject/**")
                 .hasAuthority("SUPERVISOR")
                 .antMatchers("/user/delete/{id}")
                 .hasAnyAuthority("HR_SUPERVISOR", "SUPERADMIN")
