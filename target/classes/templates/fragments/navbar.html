@@ -13,7 +13,7 @@
         EMS
     </a>
     <div class="collapse navbar-collapse" id="navbars">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav nav-tabs mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/index}" th:text="#{link.home}"></a>
             </li>
@@ -69,8 +69,9 @@
             <li sec:authorize="hasAuthority('SUPERVISOR')" class="nav-item active">
                 <a class="nav-link" th:href="@{/shifts/assign_shifts}" th:text="#{link.shifts}"></a>
             </li>
-
         </ul>
+        
+
         <div class="form-inline my-2 my-lg-0" sec:authorize="!isAuthenticated()">
 <!--            <form action="/registration" method="get">
                 <button class="btn btn-outline-primary mr-3 my-2 my-sm-0" th:text="#{button.signup}" type="submit">
