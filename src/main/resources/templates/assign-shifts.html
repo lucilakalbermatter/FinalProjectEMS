@@ -6,6 +6,7 @@
     <title>Assign Shifts</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
 <body>
 <nav th:replace="~{fragments/navbar::navbar}"></nav>
@@ -59,11 +60,13 @@
                         <div class="col-md-3 mb-3">
                             <label>
                                 <span th:text="#{shifts.employee.label}"></span>
-                                <input type="text"
-                                       th:field="*{assignedEmployeeName}"
-                                       th:placeholder="#{shifts.employee.placeholder}"
-                                       class="form-control"
-                                       required/>
+                                <select class="form-control" id="employee" width="200" style="width: 200px" required>
+                                    <option value="">Select employee</option>
+                                    <option th:each="user : ${userList}"
+                                            th:value="${user.lastName}"
+                                            th:text="${user.firstName} + ' ' + ${user.lastName}">
+                                    </option>
+                                </select>
                                 <span th:if="${#fields.hasErrors('assignedEmployeeName')}" th:errors="*{assignedEmployeeName}"
                                       class="text-danger"></span>
                             </label>
