@@ -63,7 +63,7 @@ public class UserController {
                                  @PageableDefault(size = 15,
                                          sort = {"lastName", "firstName"}) Pageable pageable) {
         if (keyword != null){
-            model.addAttribute("users", userService.findByKeyword(pageable, keyword.toLowerCase());
+            model.addAttribute("users", userService.findByKeyword(pageable, keyword));
         }
         else {
             model.addAttribute("users", userService.findAllUsersPageable(pageable));

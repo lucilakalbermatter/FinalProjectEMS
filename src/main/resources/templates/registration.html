@@ -89,12 +89,12 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label>
-                            <span th:text="#{registration.supervisorRole.label} + ' Check for yes, leave blank for no: '"></span>
+                            <span th:text="#{registration.supervisorRole.label}" ></span> <br /> <span>Check for yes, leave blank for no:</span>
                             <input type="checkbox"
                                    th:field="*{supervisorRole}"
                                    th:placeholder="#{registration.supervisorRole.placeholder}"
                                    class="form-control"
-                                   name="Check for yes, leave blank for no"
+                                   name="Check yes for, leave blank for no"
                             />
                             <span th:if="${#fields.hasErrors('supervisorRole')}" th:errors="*{supervisorRole}"
                                   class="text-danger"></span>
@@ -105,7 +105,7 @@
                     <div class="col-md-3 mb-3">
                         <label class="col-form-label">
                             <span th:text="#{registration.company.label}"></span>
-                            <select th:field="*{company}" class="form-control" id="company" required>
+                            <select th:field="*{company}" class="form-control" id="company" required >
                                 <option value="">Select Company</option>
                                 <option th:each="company : ${companiesList}"
                                         th:value="${company.name}"
