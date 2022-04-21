@@ -201,14 +201,14 @@ public class Application {
             LocalTime startTime = LocalTime.of(9,0);
             LocalTime endTime = LocalTime.of(17,30);
 
-            Shift shift = new Shift(
+      /*      Shift shift = new Shift(
                     now,
                     LocalDateTime.of(now, startTime),
                     LocalDateTime.of(now, endTime),
                     u6
             );
 
-            shiftService.saveShiftAndUpdateEmployee(u6, shift);
+            shiftService.saveShiftAndUpdateEmployee(u6, shift);*/
         };
     }
 
