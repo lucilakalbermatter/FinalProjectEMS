@@ -40,8 +40,11 @@ public class RegistrationController {
 
     @PostMapping
     public String registerNewUser(@ModelAttribute("user") @Valid RegistrationUserDTO registrationUserDTO,
-                                  BindingResult bindingResult){
+                                  BindingResult bindingResult,
+                                  Model model){
         if (bindingResult.hasErrors()) {
+            model.addAttribute("supervisorsList", userService.getAllSupervisors());
+            model.addAttribute("companiesList", companyService.findAll());
             return "registration";
         }
 
