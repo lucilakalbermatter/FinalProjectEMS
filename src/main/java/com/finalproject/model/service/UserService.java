@@ -196,7 +196,7 @@ public class UserService implements UserDetailsService {
 
        //Get employee by keyword
    public Page<User> findByKeyword(Pageable pageable, String keyword) {
-       return userRepository.findByKeyword(keyword, pageable);
+       return userRepository.findByKeyword(keyword.toLowerCase(), pageable);
    }
 
    public List<User> getAllEmployees(){

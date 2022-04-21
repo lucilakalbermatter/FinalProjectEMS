@@ -30,9 +30,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     int enableUser(String email);
 
-    @Query(value="SELECT e FROM User e WHERE e.firstName LIKE %:keyword% " +
-            "OR e.lastName LIKE %:keyword% OR e.username LIKE %:keyword% " +
-            "OR e.department LIKE %:keyword%")
+    @Query(value="SELECT e FROM User e WHERE LOWER(e.firstName)  LIKE %:keyword% " +
+            "OR LOWER(e.lastName) LIKE %:keyword% OR LOWER(e.username) LIKE %:keyword% " +
+            "OR LOWER(e.department) LIKE %:keyword%")
     Page<User> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
 }
