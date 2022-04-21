@@ -1,22 +1,19 @@
 package com.finalproject.model.entity;
 
-
 /**
- * Statuses for leave
+ * Statuses for activity request
  *
- * @see Leave
+ * @see LeaveRequest
  */
-public enum LeaveStatus {
+public enum LeaveRequestStatus {
 
-    INACTIVE("Pending"),
-    ACTIVE("Approved"),
+    PENDING("Pending"),
+    APPROVED("Approved"),
     REJECTED("Rejected");
-
-
 
     private final String simpleName;
 
-    LeaveStatus(String simpleName) {
+    LeaveRequestStatus(String simpleName) {
         this.simpleName = simpleName;
     }
 
@@ -25,5 +22,3 @@ public enum LeaveStatus {
         return simpleName;
     }
 }
-
-

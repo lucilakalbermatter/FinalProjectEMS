@@ -21,7 +21,6 @@
             <div th:unless="${leavePage.isEmpty()}">
                 <h1 class="display-4" th:text="#{leaves.title}">Leaves</h1>
                 <hr>
-                <div th:replace="~{/fragments/pagination.html::page-navigation(url='/leaves',page=${leavePage})}"></div>
             </div>
         </div>
         <div class="card-body">
@@ -29,11 +28,13 @@
                 <div class="col-md-6" th:each="leave : ${leavePage}">
                     <div class="card mb-3 shadow-sm">
                         <div class="card-body">
-                            <p><span th:text="${leave.description}">Description:</span></p>
+                            <p>
+                            <h3> Leave request information </h3>
+                            </p>
                         </div>
                         <div class="card-footer">
                             <p>
-                                <span th:text="#{leaves.leave.id}">Id: </span>
+                                <span th:text="#{leaves.leave.id}">Leave Id: </span>
                                 <span th:text="${leave.id}"></span>
                             </p>
                             <p>
@@ -48,30 +49,21 @@
                                 <span th:text="#{leaves.leave.end_time}">End time: </span>
                                 <span th:text="${#temporals.format(leave.getEndTime(), 'dd.MM.yyyy')}"></span>
                             </p>
-                            <p>
-                                <span th:text="#{leaves.leave.duration}">Duration: </span>
-                                <span th:text="${leave.duration?.toDaysPart()}"></span>
-                                <span th:text="#{leaves.leave.duration.days}">days</span>
-                            </p>
-                            <p>
-                                <span th:text="#{leaves.leave.users}"></span>
-                                <span th:each="user : ${leave.users}">
-                                    <span th:text="${user.username}"></span>
-                                </span>
-                            </p>
+
                             <div class="d-flex justify-content-between align-items-center">
                                 <div aria-label="btn-group" class="btn-group" role="group">
                                     <a class="btn btn-sm btn-secondary"
-                                       sec:authorize="hasAuthority('ADMIN')"
                                        th:href="@{/leaves/delete/{id}(id=${leave.id})}"
                                        th:text="#{leaves.leave.button.cancel}">
                                         Cancel
                                     </a>
+                                    <div aria-label="btn-group" class="btn-group" role="group">
                                     <a class="btn btn-sm btn-secondary"
                                        th:href="@{/leaves/request/add/{id}(id=${leave.id})}"
                                        th:text="#{leaves.leave.button.request}">
                                         Request
                                     </a>
+                                    </div>
 
                                 </div>
                             </div>
@@ -80,7 +72,7 @@
                             <small>
                                 <span th:text="#{leaves.leave.leaveStatus}">Status:</span>
                                 <span
-                                        th:text="${leave.leaveStatus}">
+                                        th:text="${leave.getLeaveStatus()}">
                                 </span>
                             </small>
                         </div>
