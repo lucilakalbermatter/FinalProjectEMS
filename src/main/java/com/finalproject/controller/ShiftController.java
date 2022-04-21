@@ -49,8 +49,7 @@ public class ShiftController {
 
         shiftService.createNewShift(shiftDTO);
 
-
-        return "user-profile";
+        return "redirect:/profile";
     }
 }
 

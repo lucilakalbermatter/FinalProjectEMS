@@ -147,6 +147,9 @@ public class ShiftService {
         }
         Duration total = Duration.ofMillis(mils);
         shift.setTotalTimeWorked(total);
+        String formattedTotalWorkedTime = total.toHours() + " hrs, "
+                + total.toMinutes() + " min, " + total.toSeconds() + " sec";
+        shift.setTotalTime(formattedTotalWorkedTime);
 
         return total;
     }
@@ -171,6 +174,7 @@ public class ShiftService {
                 .assignedStartTime(assignedStartTime)
                 .assignedEndTime(assignedEndTime)
                 .employee(userService.findByFullName(shiftDTO.getAssignedEmployeeName()))
+                .absent(true)
                 .build();
 
         try {

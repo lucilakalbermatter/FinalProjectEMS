@@ -41,32 +41,31 @@
                     <table th:unless="${users.isEmpty()}" class="table table-striped">
                         <thead>
                         <tr>
-                            <th th:text="#{users.id}">Id</th>
-                            <th th:text="#{users.first_name}">First name</th>
-                            <th th:text="#{users.last_name}">Last name</th>
-                            <th th:text="#{users.username}">Email</th>
-                            <th th:text="#{users.department}">Department</th>
-                            <th th:text="#{users.active}">Active</th>
-<!--                            <th th:text="#{users.roles}">Roles</th>-->
-                            <th th:text="#{users.edit}">Edit</th>
-                            <th sec:authorize="hasAuthority('SUPERADMIN')" th:text="#{users.delete}">Delete</th>
+                            <th class="text-center" th:text="#{users.id}">Id</th>
+                            <th class="text-center" th:text="#{users.full_name}">Name</th>
+                            <th class="text-center" th:text="#{users.username}">Email</th>
+                            <th class="text-center" th:text="#{users.company}">Company</th>
+                            <th class="text-center" th:text="#{users.department}">Department</th>
+                            <th class="text-center" th:text="#{users.active}">Active</th>
+                            <th class="text-center" th:text="#{users.actions}">Actions</th>
+                            <!--<th sec:authorize="hasAuthority('SUPERADMIN')" th:text="#{users.delete}">Delete</th>-->
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="user : ${users}">
-                            <td><span th:text="${user.id}"></span></td>
-                            <td><span th:text="${user.firstName}"></span></td>
-                            <td><span th:text="${user.lastName}"></span></td>
-                            <td><span th:text="${user.username}"></span></td>
-                            <td><span th:text="${user.department}"></span></td>
-                            <td><span th:text="${user.enabled}"></span></td>
-<!--                            <td><span th:text="${user.authorities}"></span></td>-->
-                            <td>
-                                <a th:href="@{/users/update/{id}(id=${user.id})}" class="btn btn-primary">
+                            <td class="text-center"><span th:text="${user.id}"></span></td>
+                            <td class="text-center"><span th:text="${user.fullName}"></span></td>
+                            <td class="text-center"><span th:text="${user.username}"></span></td>
+                            <td class="text-center"><span th:text="${user.company}"></span></td>
+                            <td class="text-center"><span th:text="${user.department}"></span></td>
+                            <td class="text-center"><span th:text="${user.enabled}"></span></td>
+                            <td class="text-center">
+                                <a sec:authorize="hasAnyAuthority('HR_AGENT', 'SUPERVISOR')" th:href="@{/profiles/{id}(id=${user.id})}" class="btn btn-primary">
+                                    <img th:src="@{/images/eye.svg}">
+                                </a>
+                                <a sec:authorize="hasAuthority('HR_AGENT')" th:href="@{/users/update/{id}(id=${user.id})}" class="btn btn-primary">
                                     <img th:src="@{/images/outline-edit-24px.svg}">
                                 </a>
-                            </td>
-                            <td>
                                 <a sec:authorize="hasAuthority('SUPERADMIN')"  th:href="@{/user/delete/{id}(id=${user.id})}" class="btn btn-primary">
                                     <img th:src="@{/images/outline-delete-24px.svg}">
                                 </a>

@@ -34,6 +34,7 @@ public class Shift {
     private LocalDateTime tempEndTime;
     private Duration timeWorkedInLastPeriod;
     private Duration totalTimeWorked;
+    private String totalTime;
     @ElementCollection
     private List<Duration> workedPeriods = new ArrayList<>();
     @ElementCollection

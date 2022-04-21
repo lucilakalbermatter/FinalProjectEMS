@@ -3,10 +3,7 @@ package com.finalproject.model.service;
 import com.finalproject.dto.RegistrationUserDTO;
 import com.finalproject.dto.UpdateUserDTO;
 import com.finalproject.dto.UpdateUserProfileDTO;
-import com.finalproject.model.entity.Activity;
-import com.finalproject.model.entity.Authority;
-import com.finalproject.model.entity.Supervisor;
-import com.finalproject.model.entity.User;
+import com.finalproject.model.entity.*;
 import com.finalproject.model.repository.SupervisorRepository;
 import com.finalproject.model.repository.UserRepository;
 import com.finalproject.util.exception.UsernameNotUniqueException;
@@ -24,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -113,6 +111,7 @@ public class UserService implements UserDetailsService {
 
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
+        user.setFullName(userDTO.getFirstName() + " " + userDTO.getLastName());
         user.setUsername(userDTO.getUsername());
         user.setSupervisorRole(userDTO.isSupervisorRole());
         if (Objects.nonNull(userDTO.getPassword()) && userDTO.getPassword().length() > 0) {
@@ -182,8 +181,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void updateUserProfile(UpdateUserProfileDTO userDTO) {
-        User user = getCurrentUser();
+    public void updateUserProfile(UpdateUserProfileDTO userDTO, User user) {
 
         user.setAddress(userDTO.getAddress());
         user.setTelephone(userDTO.getTelephone());
@@ -228,6 +226,10 @@ public class UserService implements UserDetailsService {
         }
 
         return names;
+    }
+
+    public List<Shift> getListOfShiftsFromUser(User user){
+        return user.getShifts();
     }
 
 }

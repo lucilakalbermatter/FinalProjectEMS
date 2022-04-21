@@ -2,11 +2,8 @@ package com.finalproject.controller;
 
 import com.finalproject.dto.CompanyDTO;
 import com.finalproject.dto.UpdateUserProfileDTO;
-import com.finalproject.model.entity.Activity;
+import com.finalproject.model.entity.*;
 import com.finalproject.dto.UpdateUserDTO;
-import com.finalproject.model.entity.Authority;
-import com.finalproject.model.entity.Department;
-import com.finalproject.model.entity.User;
 import com.finalproject.model.repository.CompanyRepository;
 import com.finalproject.model.service.CompanyService;
 import com.finalproject.model.service.UserService;
@@ -24,10 +21,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Controller that react on user related requests
@@ -41,13 +41,15 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final CompanyRepository companyRepository;
     private final CompanyService companyService;
+    private final EntityManager entityManager;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder, CompanyRepository companyRepository, CompanyService companyService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, CompanyRepository companyRepository, CompanyService companyService, EntityManager entityManager) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
         this.companyService = companyService;
+        this.entityManager = entityManager;
     }
 
 /*    @GetMapping("/users")
@@ -70,7 +72,6 @@ public class UserController {
         }
         return "users";
     }
-
 
 
     @GetMapping("/user/delete/{id}")
@@ -114,18 +115,35 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getUserProfilePage(@AuthenticationPrincipal User user,
-                                     Model model) {
+    public String getUserProfilePage(Model model) {
+            User user = userService.getCurrentUser();
+
+        List<Shift> shifts = userService.getListOfShiftsFromUser(user);
+
+
+        model.addAttribute("shifts",shifts);
         model.addAttribute("user", userService.getUserById(user.getId()));
         model.addAttribute("company", new CompanyDTO());
 
-        if(user.isFirstLogin()){
-            return "password_change";
-        }else if(user.getAuthorities().contains(Authority.SUPERADMIN) && companyRepository.findAll().isEmpty()){
-            return "create_company";
-        }else{
-            return "user-profile";
+            if(user.isFirstLogin()){
+                return "password_change";
+            }else if(user.getAuthorities().contains(Authority.SUPERADMIN) && companyRepository.findAll().isEmpty()){
+                return "create_company";
+            }else{
+                return "user-profile";
+            }
         }
+
+    @GetMapping("/profiles/{id}")
+    public String getUserProfileById(@PathVariable("id") long id, Model model) {
+            User user = userService.getUserById(id);
+            List<Shift> shifts = user.getShifts();
+
+        model.addAttribute("user", user);
+        model.addAttribute("shifts",shifts);
+
+        return "user-profile";
+
     }
 
     @PostMapping("/change_password")
@@ -154,7 +172,6 @@ public class UserController {
             ra.addFlashAttribute("message", "You have changed your password successfully. "
                     + "Please complete your profile.");
 
-//            return "redirect:/login";
             return "redirect:/user/profileUpdate";
         }
 
@@ -167,11 +184,12 @@ public class UserController {
     }
 
     @PostMapping("/user/profileUpdate")
-    public String updateUserProfile(@ModelAttribute("user") @Valid UpdateUserProfileDTO userDTO,
+    public String updateUserProfile(@AuthenticationPrincipal User user,
+                                    @ModelAttribute("user") @Valid UpdateUserProfileDTO userDTO,
                              BindingResult bindingResult,
                              Model model) {
 
-        userService.updateUserProfile(userDTO);
+        userService.updateUserProfile(userDTO, user);
 
         return "redirect:/profile";
     }

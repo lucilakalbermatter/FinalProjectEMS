@@ -15,8 +15,7 @@
 <div class="container">
     <div class="card-header">
         <h1 class="display-4">
-            <span th:text="#{users.profile.welcome}"></span>
-            <span th:text="${user.firstName}"></span>
+            <span th:text="${user.fullName}"></span>
         </h1>
         <hr>
     </div>
@@ -43,6 +42,11 @@
             <div class="card-text">
                 <span th:text="#{users.profile.username}">Username: </span>
                 <span th:text="${user.username}"></span>
+            </div>
+            <hr>
+            <div class="card-text">
+                <span th:text="#{users.profile.company}">Company: </span>
+                <span th:text="${user.company}"></span>
             </div>
             <hr>
             <div class="card-text">
@@ -108,6 +112,36 @@
                     </tbody>
                 </table>
             </div>
+            <hr>
+            <span>Shifts:</span>
+            <table th:unless="${shifts==null}" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Day</th>
+                    <th class="text-center">Start Time</th>
+                    <th class="text-center">End Time</th>
+                    <th class="text-center">Absent</th>
+                    <th class="text-center">First Check In</th>
+                    <th class="text-center">Last Check In</th>
+                    <th class="text-center">Last Check Out</th>
+                    <th class="text-center">Time Worked</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="shift : ${shifts}">
+                    <td class="text-center"><span th:text="${shift.id}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(shift.assignedDay, 'dd.MM.yyyy')}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(shift.assignedStartTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(shift.assignedEndTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td class="text-center"><span th:text="${shift.absent}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(shift.firstCheckIn, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(shift.tempStartTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td class="text-center"><span th:text="${#temporals.format(shift.tempEndTime, 'dd.MM.yyyy hh:mm a')}"></span></td>
+                    <td class="text-center"><span th:text="${shift.totalTime}"></span></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

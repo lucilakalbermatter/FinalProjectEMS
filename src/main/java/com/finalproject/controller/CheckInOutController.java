@@ -44,11 +44,8 @@ public class CheckInOutController {
         Shift shift = shiftService.findCurrentShift(employee);
 
         shiftService.getTotalWorkedTime();
-        String formattedTotalWorkedTime = shift.getTotalTimeWorked().toHours() + " hrs, "
-                + shift.getTotalTimeWorked().toMinutes() + " min, " + shift.getTotalTimeWorked().toSeconds() + " sec";
 
         model.addAttribute("shift", shift);
-        model.addAttribute("totalTime", formattedTotalWorkedTime);
 
         return "check_in_out";
     }
