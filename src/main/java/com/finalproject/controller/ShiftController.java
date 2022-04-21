@@ -33,6 +33,7 @@ public class ShiftController {
     public String getAssignShiftsPage(@ModelAttribute("shift") ShiftDTO shiftDTO,
                                       Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("userList", userService.getAllEmployees());
         return "assign-shifts";
     }
 
