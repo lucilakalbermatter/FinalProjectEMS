@@ -40,17 +40,17 @@ public class ShiftController {
     @PostMapping(path="/assign_shifts")
     public String registerNewShift(@ModelAttribute("shift") @Valid ShiftDTO shiftDTO,
                                    BindingResult bindingResult,
-                                   User user,
                                    Model model){
         if (bindingResult.hasErrors()) {
             return "assign-shifts";
         }
+
+        User user = userService.findByFullName(shiftDTO.getAssignedEmployeeName());
         model.addAttribute("user", user);
-        model.addAttribute("user", userService.findByFullName(shiftDTO.getAssignedEmployeeName()));
 
         shiftService.createNewShift(shiftDTO);
 
-        return "redirect:/profile";
+        return "redirect:/profiles/"+user.getId();
     }
 }
 

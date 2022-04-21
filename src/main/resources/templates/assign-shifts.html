@@ -60,11 +60,11 @@
                         <div class="col-md-3 mb-3">
                             <label>
                                 <span th:text="#{shifts.employee.label}"></span>
-                                <select class="form-control" id="employee" width="200" style="width: 200px" required>
+                                <select th:field="*{assignedEmployeeName}" class="form-control" id="employee" width="200" style="width: 200px" required>
                                     <option value="">Select employee</option>
                                     <option th:each="user : ${userList}"
-                                            th:value="${user.lastName}"
-                                            th:text="${user.firstName} + ' ' + ${user.lastName}">
+                                            th:value="${user.fullName}"
+                                            th:text="${user.fullName}">
                                     </option>
                                 </select>
                                 <span th:if="${#fields.hasErrors('assignedEmployeeName')}" th:errors="*{assignedEmployeeName}"
