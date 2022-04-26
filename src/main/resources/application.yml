@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   error:
     include-message: always
     include-binding-errors: always
@@ -7,12 +7,12 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    password:
-    url: jdbc:postgresql://localhost:5432/ems
-    username:
+    password: 12345678
+    url: jdbc:postgresql://ems.ckqkxfcyychs.us-east-1.rds.amazonaws.com/ems
+    username: postgres
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL95Dialect
